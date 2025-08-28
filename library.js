@@ -1,4 +1,5 @@
 const myLibrary =[];
+const shelf = document.getElementById('shelf');
 function Book(title , author , pages , read){
     this.title = title;
     this.author= author;
@@ -14,26 +15,28 @@ const book2 = new Book("1984" , "George Orwell" , 328 , "Not-read");
 addBookToLibrary(book1);
 addBookToLibrary(book2);
 function status(read){
+    if (!read) {
+        return 'Unknown';
+    }
     if(read.toLowerCase() === 'read'){
         return 'yes, you have read this book';
     }
     else{
-        return 'No, why don\'t\ you try it';
+        return 'No, why don\'t you try it';
     }
 }
 function display(){
-const shelf = document.getElementById('shelf');
 shelf.innerHTML = '';
 myLibrary.forEach(all =>{
     const booked= document.createElement('div');
     booked.classList.add('booked-list');
-booked.dataset.bookId = all.id;
-booked.innerHTML = '<h3> Book Title: ' + all.title+ '</h3>' ;
-booked.innerHTML += '<p> Author: '  + all.author + '</p>' ;
-booked.innerHTML += '<p> Number of pages: ' + all.pages + '</p>' ;
-booked.innerHTML +='<p>Have Read: ' + status(all.read)+ '</p>';
-booked.innerHTML += '<button class="delete"> Remove </button> <button class="status"> status</button>'; 
-shelf.appendChild(booked);
+    booked.dataset.bookId = all.id;
+    booked.innerHTML = '<h3> Book Title: ' + all.title+ '</h3>' ;
+    booked.innerHTML += '<p> Author: '  + all.author + '</p>' ;
+    booked.innerHTML += '<p> Number of pages: ' + all.pages + '</p>' ;
+    booked.innerHTML += '<p>Have Read: ' + status(all.read)+ '</p>';
+    booked.innerHTML += '<button class="delete"> Remove </button> <button class="status"> status</button>'; 
+    shelf.appendChild(booked);
 }
 );
 }
@@ -55,4 +58,28 @@ addBookToLibrary(newBook);
 display();
 look.close();
 form.reset();
+});
+shelf.addEventListener('click', function(e){
+    if(e.target.className === 'delete'){
+        const list = e.target.closest('.booked-list');
+        const bookId = list.dataset.bookId;
+        const outcome = myLibrary.findIndex(book =>book.id === bookId);
+        myLibrary.splice(outcome ,1);
+        display();
+    }
+    else if(e.target.className === 'status'){
+        const list = e.target.closest('.booked-list');
+        const bookId = list.dataset.bookId;
+        const change = myLibrary.find(book => book.id === bookId);
+        if(change.read==='Read'){
+            change.read = 'Not-read';
+        }
+        else{
+            change.read = 'Read';
+        }
+    }
+    else{
+        return '';
+    }
+    display();
 });
