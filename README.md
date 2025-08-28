@@ -31,9 +31,11 @@ A simple web-based library application that allows users to add, view, and manag
 ## Folder Structure
 
 Library/   
-├── index.html         // Main HTML structure
-├── library.css        // Styling for layout and components 
-├── library.js         // JavaScript logic for book creation and display
+├── index.html  
+
+├── library.css        
+
+├── library.js         
 
 
 ## License
