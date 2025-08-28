@@ -11,23 +11,48 @@ myLibrary.push(book);
 }
 const book1 = new Book("To kill a Mockingbird" , "Harper Lee" , 281 , "Read" );
 const book2 = new Book("1984" , "George Orwell" , 328 , "Not-read");
+addBookToLibrary(book1);
+addBookToLibrary(book2);
+function status(read){
+    if(read.toLowerCase() === 'read'){
+        return 'yes, you have read this book';
+    }
+    else{
+        return 'No, why don\'t\ you try it';
+    }
+}
 function display(){
 const shelf = document.getElementById('shelf');
 shelf.innerHTML = '';
 myLibrary.forEach(all =>{
     const booked= document.createElement('div');
     booked.classList.add('booked-list');
-booked-list.innerHTML = '<h3> Book Title: ' + all.title+ '</h3>'
-booked-list.innerHTML = '<p> Author: '  + all.author + '</p>'
-booked-list.innerHTML = '<p> Number of pages: ' + all.pages + '</P>'
-booked-list.innerHTML = '<p>Have Read: ' + if(shelf.read === true){
-    return 'yes';
+booked.dataset.bookId = all.id;
+booked.innerHTML = '<h3> Book Title: ' + all.title+ '</h3>' ;
+booked.innerHTML += '<p> Author: '  + all.author + '</p>' ;
+booked.innerHTML += '<p> Number of pages: ' + all.pages + '</p>' ;
+booked.innerHTML +='<p>Have Read: ' + status(all.read)+ '</p>';
+booked.innerHTML += '<button class="delete"> Remove </button> <button class="status"> status</button>'; 
+shelf.appendChild(booked);
 }
-else{
-    return 'No';
-} '</p>';
-
-
-
+);
 }
-)}
+display();
+const look = document.querySelector('#look');
+const add = document.querySelector('.add');
+add.addEventListener('click', function(){
+    look.showModal();
+});
+const form = document.querySelector('#books');
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+const titles = document.querySelector('#book').value ;
+const authors = document.querySelector('#author').value ;
+const pages = document.querySelector('#pages').value ;
+const reading = document.querySelector('#read').value ;
+const newBook = new Book(titles , authors , pages , reading);
+addBookToLibrary(newBook);
+display();
+look.close();
+form.reset();
+});
